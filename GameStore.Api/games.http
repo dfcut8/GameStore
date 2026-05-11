@@ -1,0 +1,8 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@hostname=localhost
+
+GET http://{{hostname}}:5177/ HTTP/1.1
+
+###
+
+GET http://{{hostname}}:5177/games HTTP/1.1
