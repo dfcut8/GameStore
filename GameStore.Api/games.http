@@ -6,3 +6,19 @@ GET http://{{hostname}}:5177/ HTTP/1.1
 ###
 
 GET http://{{hostname}}:5177/games HTTP/1.1
+
+###
+
+GET http://{{hostname}}:5177/games/4 HTTP/1.1
+
+###
+
+POST http://{{hostname}}:5177/games HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test1",
+  "genre": "TestGenre",
+  "price": 99.99,
+  "releaseDate": "1990-12-31"
+}
