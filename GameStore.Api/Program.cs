@@ -26,7 +26,7 @@ app.MapGet(
         "/games/{id}",
         (int id) =>
         {
-            return games.FirstOrDefault(g => g.Id >= id);
+            return games.FirstOrDefault(g => g.Id == id);
         }
     )
     .WithName(GetGameByIdEndpointName);
@@ -38,6 +38,20 @@ app.MapPost(
         GameData game = new(games.Count + 1, data.Name, data.Genre, data.Price, data.ReleaseDate);
         games.Add(game);
         return Results.CreatedAtRoute(GetGameByIdEndpointName, new { id = game.Id }, game);
+    }
+);
+
+app.MapPut(
+    "/games/{id}",
+    (int id, UpdateGameData data) =>
+    {
+        var current = games.FirstOrDefault(g => g.Id == id);
+        if (current == null)
+            return Results.NotFound();
+        games.Remove(current);
+        GameData g = new(id, data.Name, data.Genre, data.Price, data.releaseDate);
+        games.Add(g);
+        return Results.NoContent();
     }
 );
 

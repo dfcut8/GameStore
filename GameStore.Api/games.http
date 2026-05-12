@@ -9,7 +9,7 @@ GET http://{{hostname}}:5177/games HTTP/1.1
 
 ###
 
-GET http://{{hostname}}:5177/games/4 HTTP/1.1
+GET http://{{hostname}}:5177/games/1 HTTP/1.1
 
 ###
 
@@ -21,4 +21,16 @@ Content-Type: application/json
   "genre": "TestGenre",
   "price": 99.99,
   "releaseDate": "1990-12-31"
+}
+
+###
+
+PUT http://{{hostname}}:5177/games/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "TestReplace",
+  "genre": "TestGenreReplace",
+  "price": 199.99,
+  "releaseDate": "1977-12-31"
 }
