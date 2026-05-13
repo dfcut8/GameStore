@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "name": "Test2",
   "genre": "TestGenre",
-  "price": 1199.99,
+  "price": 199.99,
   "releaseDate": "1980-12-31"
 }
 
