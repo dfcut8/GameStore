@@ -34,3 +34,7 @@ Content-Type: application/json
   "price": 199.99,
   "releaseDate": "1977-12-31"
 }
+
+###
+
+DELETE http://{{hostname}}:5177/games/1 HTTP/1.1

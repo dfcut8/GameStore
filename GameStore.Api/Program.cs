@@ -46,11 +46,23 @@ app.MapPut(
     (int id, UpdateGameData data) =>
     {
         var current = games.FirstOrDefault(g => g.Id == id);
-        if (current == null)
+        if (current is null)
             return Results.NotFound();
         games.Remove(current);
         GameData g = new(id, data.Name, data.Genre, data.Price, data.releaseDate);
         games.Add(g);
+        return Results.NoContent();
+    }
+);
+
+app.MapDelete(
+    "games/{id}",
+    (int id) =>
+    {
+        var current = games.FirstOrDefault(g => g.Id == id);
+        if (current is null)
+            return Results.NotFound();
+        games.Remove(current);
         return Results.NoContent();
     }
 );
