@@ -57,7 +57,7 @@ public static class GamesEndpoints
                 if (current is null)
                     return Results.NotFound();
                 games.Remove(current);
-                GameData g = new(id, data.Name, data.Genre, data.Price, data.releaseDate);
+                GameData g = new(id, data.Name, data.Genre, data.Price, data.ReleaseDate);
                 games.Add(g);
                 return Results.NoContent();
             }

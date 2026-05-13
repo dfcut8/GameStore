@@ -17,10 +17,10 @@ POST http://{{hostname}}:5177/games HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Test1",
+  "name": "Test2",
   "genre": "TestGenre",
-  "price": 99.99,
-  "releaseDate": "1990-12-31"
+  "price": 1199.99,
+  "releaseDate": "1980-12-31"
 }
 
 ###
