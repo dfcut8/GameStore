@@ -15,4 +15,6 @@ app.MapGet("/", () => "Game Store API.");
 
 app.MapGamesEndpoints();
 
+app.MigrateDb();
+
 app.Run();
