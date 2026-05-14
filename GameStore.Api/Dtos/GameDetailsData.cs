@@ -2,7 +2,7 @@
 
 namespace GameStore.Api.Dtos;
 
-public record CreateGameData(
+public record GameDetailsData(
     [Required] int Id,
     [Required] [StringLength(maximumLength: 50, MinimumLength = 3)] string Name,
     [Required] int GenreId,
