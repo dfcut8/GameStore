@@ -1,6 +1,8 @@
-﻿namespace GameStore.Api.Models;
+﻿using GameStore.Api.Genres;
 
-public class Game
+namespace GameStore.Api.Games;
+
+public class GameModel
 {
     public int Id { get; set; }
     public required string Name { get; set; }

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GameStore.Api.Dtos;
+namespace GameStore.Api.Games;
 
-public record GameDetailsData(
+public record CreateGameDto(
     [Required] int Id,
-    [Required] int GenreId,
     [Required] [StringLength(maximumLength: 50, MinimumLength = 3)] string Name,
+    [Required] int GenreId,
     [Required] [Range(minimum: 0.10, maximum: 1000.00)] decimal Price,
     [Range(
         typeof(DateOnly),

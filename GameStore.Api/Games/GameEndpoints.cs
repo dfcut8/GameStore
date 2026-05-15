@@ -1,12 +1,11 @@
 ﻿using System.Xml.Linq;
 using GameStore.Api.Data;
-using GameStore.Api.Dtos;
-using GameStore.Api.Models;
+using GameStore.Api.Games;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Endpoints;
 
-public static class GamesEndpoints
+public static class GameEndpoints
 {
     private const string GetGameByIdEndpointName = "GetGameById";
 
@@ -37,7 +36,7 @@ public static class GamesEndpoints
                     return game is null
                         ? Results.NotFound()
                         : Results.Ok(
-                            new GameDetailsData(
+                            new GameDetailsDto(
                                 Id: game.Id,
                                 Name: game.Name,
                                 GenreId: game.GenreId,
@@ -51,9 +50,9 @@ public static class GamesEndpoints
 
         group.MapPost(
             "/",
-            async (CreateGameData data, GameStoreContext dbCtx) =>
+            async (CreateGameDto data, GameStoreContext dbCtx) =>
             {
-                Game game = new()
+                GameModel game = new()
                 {
                     Name = data.Name,
                     GenreId = data.GenreId,
@@ -63,7 +62,7 @@ public static class GamesEndpoints
                 dbCtx.Add(game);
                 await dbCtx.SaveChangesAsync();
 
-                GameDetailsData gameDetailsData = new(
+                GameDetailsDto gameDetailsData = new(
                     Id: game.Id,
                     Name: game.Name,
                     GenreId: game.GenreId,
@@ -81,7 +80,7 @@ public static class GamesEndpoints
 
         group.MapPut(
             "/{id}",
-            async (int id, UpdateGameData data, GameStoreContext dbCtx) =>
+            async (int id, UpdateGameDto data, GameStoreContext dbCtx) =>
             {
                 var game = await dbCtx.Games.FindAsync(id);
                 if (game is null)

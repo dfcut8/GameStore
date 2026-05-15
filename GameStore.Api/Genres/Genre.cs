@@ -1,4 +1,4 @@
-﻿namespace GameStore.Api.Models;
+﻿namespace GameStore.Api.Genres;
 
 public class Genre
 {
