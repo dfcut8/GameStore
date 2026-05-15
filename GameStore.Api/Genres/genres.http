@@ -1,0 +1,38 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@hostname=localhost
+@group=genres
+###
+
+GET http://{{hostname}}:5177/{{group}} HTTP/1.1
+
+###
+
+GET http://{{hostname}}:5177/{{group}}/1 HTTP/1.1
+
+###
+
+POST http://{{hostname}}:5177/{{group}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test2",
+  "genreId": 1,
+  "price": 199.99,
+  "releaseDate": "1980-12-31"
+}
+
+###
+
+PUT http://{{hostname}}:5177/{{group}}/12 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "TestReplace",
+  "genreId": 1,
+  "price": 199.99,
+  "releaseDate": "1981-12-31"
+}
+
+###
+
+DELETE http://{{hostname}}:5177/{{group}}/10 HTTP/1.1

@@ -1,9 +1,7 @@
-﻿using System.Xml.Linq;
-using GameStore.Api.Data;
-using GameStore.Api.Games;
+﻿using GameStore.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStore.Api.Endpoints;
+namespace GameStore.Api.Games;
 
 public static class GameEndpoints
 {
