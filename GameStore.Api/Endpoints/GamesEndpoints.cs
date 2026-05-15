@@ -1,4 +1,5 @@
-﻿using GameStore.Api.Data;
+﻿using System.Xml.Linq;
+using GameStore.Api.Data;
 using GameStore.Api.Dtos;
 using GameStore.Api.Models;
 
@@ -39,24 +40,23 @@ public static class GamesEndpoints
             "/",
             (CreateGameData data, GameStoreContext dbCtx) =>
             {
-                Game g = new()
+                Game game = new()
                 {
                     Name = data.Name,
                     GenreId = data.GenreId,
                     Price = data.Price,
                     ReleaseDate = data.ReleaseDate,
                 };
-                dbCtx.Add(g);
+                dbCtx.Add(game);
                 dbCtx.SaveChanges();
 
-                GameDetailsData gameDetailsData = new()
-                {
-                    Id = g.Id,
-                    GenreId = g.GenreId,
-                    Price = g.Price,
-                    Name = g.Name,
-                    ReleaseDate = g.ReleaseDate,
-                };
+                GameDetailsData gameDetailsData = new(
+                    Id: game.Id,
+                    Name: game.Name,
+                    GenreId: game.GenreId,
+                    Price: game.Price,
+                    ReleaseDate: game.ReleaseDate
+                );
 
                 return Results.CreatedAtRoute(
                     GetGameByIdEndpointName,
