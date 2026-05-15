@@ -42,5 +42,34 @@ public static class GenreEndpoints
                 );
             }
         );
+
+        group.MapPut(
+            "/{id}",
+            async (GameStoreContext dbCtx, int id, GenreUpdateDto data) =>
+            {
+                var genre = await dbCtx.Genres.FindAsync(id);
+                if (genre is null)
+                {
+                    return Results.NotFound();
+                }
+                genre.Name = data.Name;
+                await dbCtx.SaveChangesAsync();
+                return Results.NoContent();
+            }
+        );
+
+        group.MapDelete(
+            "/{id}",
+            async (GameStoreContext dbCtx, int id) =>
+            {
+                var genre = await dbCtx.Genres.FindAsync(id);
+                if (genre is null)
+                {
+                    return Results.NotFound();
+                }
+                await dbCtx.Genres.Where(g => g.Id == genre.Id).ExecuteDeleteAsync();
+                return Results.NoContent();
+            }
+        );
     }
 }
