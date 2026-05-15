@@ -4,7 +4,7 @@ namespace GameStore.Api.Dtos;
 
 public record UpdateGameData(
     [Required] [StringLength(maximumLength: 50, MinimumLength = 3)] string Name,
-    [Required] [StringLength(maximumLength: 24, MinimumLength = 3)] string Genre,
+    [Required] int GenreId,
     [Required] [Range(minimum: 0.10, maximum: 1000.00)] decimal Price,
     [Range(
         typeof(DateOnly),

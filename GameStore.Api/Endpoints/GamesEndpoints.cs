@@ -9,12 +9,6 @@ namespace GameStore.Api.Endpoints;
 public static class GamesEndpoints
 {
     private const string GetGameByIdEndpointName = "GetGameById";
-    private static readonly List<GameSummaryDto> games =
-    [
-        new(1, "Street Fighter II", "Fighting", 19.99M, new DateOnly(2022, 11, 30)),
-        new(2, "Final Fantasy II", "JRPG", 39.99M, new DateOnly(1989, 06, 25)),
-        new(3, "Batman", "Beat em up", 29.99M, new DateOnly(1983, 03, 01)),
-    ];
 
     public static void MapGamesEndpoints(this WebApplication app)
     {
@@ -87,26 +81,35 @@ public static class GamesEndpoints
 
         group.MapPut(
             "/{id}",
-            (int id, UpdateGameData data) =>
+            async (int id, UpdateGameData data, GameStoreContext dbCtx) =>
             {
-                var current = games.FirstOrDefault(g => g.Id == id);
-                if (current is null)
+                var game = await dbCtx.Games.FindAsync(id);
+                if (game is null)
+                {
                     return Results.NotFound();
-                games.Remove(current);
-                GameSummaryDto g = new(id, data.Name, data.Genre, data.Price, data.ReleaseDate);
-                games.Add(g);
+                }
+
+                game.Name = data.Name;
+                game.Price = data.Price;
+                game.ReleaseDate = data.ReleaseDate;
+                game.GenreId = data.GenreId;
+
+                await dbCtx.SaveChangesAsync();
+
                 return Results.NoContent();
             }
         );
 
         group.MapDelete(
             "/{id}",
-            (int id) =>
+            async (int id, GameStoreContext dbCtx) =>
             {
-                var current = games.FirstOrDefault(g => g.Id == id);
-                if (current is null)
+                var game = await dbCtx.Games.FindAsync(id);
+                if (game is null)
+                {
                     return Results.NotFound();
-                games.Remove(current);
+                }
+                dbCtx.Games.Remove(game);
                 return Results.NoContent();
             }
         );
