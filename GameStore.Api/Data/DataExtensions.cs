@@ -22,19 +22,19 @@ public static class DataExtensions
                 ops.UseSeeding(
                     (ctx, _) =>
                     {
-                        if (!ctx.Set<Genre>().Any())
+                        if (!ctx.Set<GenreModel>().Any())
                         {
-                            ctx.Set<Genre>()
+                            ctx.Set<GenreModel>()
                                 .AddRange(
-                                    new Genre { Name = "JRPG" },
-                                    new Genre { Name = "TRPG" },
-                                    new Genre { Name = "Racing" },
-                                    new Genre { Name = "Action" },
-                                    new Genre { Name = "Horror" },
-                                    new Genre { Name = "Shoot Em Up!" },
-                                    new Genre { Name = "Sports" },
-                                    new Genre { Name = "2D Platformer" },
-                                    new Genre { Name = "Quest" }
+                                    new GenreModel { Name = "JRPG" },
+                                    new GenreModel { Name = "TRPG" },
+                                    new GenreModel { Name = "Racing" },
+                                    new GenreModel { Name = "Action" },
+                                    new GenreModel { Name = "Horror" },
+                                    new GenreModel { Name = "Shoot Em Up!" },
+                                    new GenreModel { Name = "Sports" },
+                                    new GenreModel { Name = "2D Platformer" },
+                                    new GenreModel { Name = "Quest" }
                                 );
                             ctx.SaveChanges();
                         }
