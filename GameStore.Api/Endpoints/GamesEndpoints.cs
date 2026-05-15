@@ -2,13 +2,14 @@
 using GameStore.Api.Data;
 using GameStore.Api.Dtos;
 using GameStore.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Endpoints;
 
 public static class GamesEndpoints
 {
     private const string GetGameByIdEndpointName = "GetGameById";
-    private static readonly List<GameData> games =
+    private static readonly List<GameSummaryDto> games =
     [
         new(1, "Street Fighter II", "Fighting", 19.99M, new DateOnly(2022, 11, 30)),
         new(2, "Final Fantasy II", "JRPG", 39.99M, new DateOnly(1989, 06, 25)),
@@ -20,10 +21,17 @@ public static class GamesEndpoints
         var group = app.MapGroup("/games");
         group.MapGet(
             "/",
-            () =>
-            {
-                return games;
-            }
+            async (GameStoreContext dbCtx) =>
+                await dbCtx
+                    .Games.Include(game => game.Genre)
+                    .Select(game => new GameSummaryDto(
+                        game.Id,
+                        game.Name,
+                        game.Genre!.Name,
+                        game.Price,
+                        game.ReleaseDate
+                    ))
+                    .ToListAsync()
         );
 
         group
@@ -85,7 +93,7 @@ public static class GamesEndpoints
                 if (current is null)
                     return Results.NotFound();
                 games.Remove(current);
-                GameData g = new(id, data.Name, data.Genre, data.Price, data.ReleaseDate);
+                GameSummaryDto g = new(id, data.Name, data.Genre, data.Price, data.ReleaseDate);
                 games.Add(g);
                 return Results.NoContent();
             }
