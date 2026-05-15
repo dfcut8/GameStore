@@ -29,16 +29,27 @@ public static class GamesEndpoints
         group
             .MapGet(
                 "/{id}",
-                (int id) =>
+                async (int id, GameStoreContext dbCtx) =>
                 {
-                    return games.FirstOrDefault(g => g.Id == id);
+                    var game = await dbCtx.Games.FindAsync(id);
+                    return game is null
+                        ? Results.NotFound()
+                        : Results.Ok(
+                            new GameDetailsData(
+                                Id: game.Id,
+                                Name: game.Name,
+                                GenreId: game.GenreId,
+                                Price: game.Price,
+                                ReleaseDate: game.ReleaseDate
+                            )
+                        );
                 }
             )
             .WithName(GetGameByIdEndpointName);
 
         group.MapPost(
             "/",
-            (CreateGameData data, GameStoreContext dbCtx) =>
+            async (CreateGameData data, GameStoreContext dbCtx) =>
             {
                 Game game = new()
                 {
@@ -48,7 +59,7 @@ public static class GamesEndpoints
                     ReleaseDate = data.ReleaseDate,
                 };
                 dbCtx.Add(game);
-                dbCtx.SaveChanges();
+                await dbCtx.SaveChangesAsync();
 
                 GameDetailsData gameDetailsData = new(
                     Id: game.Id,
