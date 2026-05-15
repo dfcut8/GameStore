@@ -37,4 +37,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://{{hostname}}:5177/games/1 HTTP/1.1
+DELETE http://{{hostname}}:5177/games/10 HTTP/1.1
